@@ -31,7 +31,7 @@ class _MyHomePageState extends State<MyHomePage> {
   static const maxSecondsWork = 60;
   static const maxSecondsWait = 10;
   static const maxRep = 2;
-  String task = "Start";
+  String task = "START";
   Color bgColor = Colors.lightBlueAccent;
   Color textColor = Colors.blue;
   bool onStart = true;
