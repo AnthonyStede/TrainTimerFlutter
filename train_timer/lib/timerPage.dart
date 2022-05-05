@@ -1,32 +1,34 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:train_timer/timerParameter.dart';
 
 
 
 class TimerPage extends StatefulWidget {
-  const TimerPage({Key? key, required this.title}) : super(key: key);
+  const TimerPage({Key? key, required this.title,required this.rep,required this.secondsWait,required this.secondsWork}) : super(key: key);
   final String title;
+  final String rep;
+  final String secondsWork;
+  final String secondsWait;
   @override
   State<TimerPage> createState() => _TimerPageState();
 }
 
 class _TimerPageState extends State<TimerPage> {
-  static const maxSecondsWork = 60;
-  static const maxSecondsWait = 10;
-  static const maxRep = 2;
+
   String task = "START";
   Color bgColor = Colors.lightBlueAccent;
   Color textColor = Colors.blue;
   bool onStart = true;
-  int rep = maxRep;
-  int secondsWork = maxSecondsWork;
-  int secondsWait = maxSecondsWait;
   int seconds = 5;
   int state = 0;
   int circularSeconds = 5;
   Timer? timer;
-  void startTimer(){
+  int showRep =0;
+
+  void startTimer(int rep,int secondsWork,int secondsWait){
     final timerDone = seconds == 0;
+    showRep = rep;
     timer = Timer.periodic(Duration(seconds : 1), (_) {
       if (seconds > 0) {
         setState(() => seconds--);
@@ -35,8 +37,8 @@ class _TimerPageState extends State<TimerPage> {
         if(rep > 0){
           if(state == 0){
             state = 1;
-            seconds = maxSecondsWork;
-            circularSeconds = maxSecondsWork;
+            seconds = secondsWork;
+            circularSeconds = secondsWork;
             setState(() {
               task = "WORK";
               textColor = Colors.green;
@@ -45,19 +47,20 @@ class _TimerPageState extends State<TimerPage> {
           }
           else if(state == 1){
             state = 2;
-            seconds = maxSecondsWait;
-            circularSeconds = maxSecondsWait;
+            seconds = secondsWait;
+            circularSeconds = secondsWait;
             setState(() {
               task = "REST";
               textColor = Colors.pink;
               bgColor = Colors.pinkAccent;
               rep--;
+              showRep--;
             });
           }
           else{
             state = 1;
-            seconds = maxSecondsWork;
-            circularSeconds = maxSecondsWork;
+            seconds = secondsWork;
+            circularSeconds = secondsWork;
             setState(() {
               task = "WORK";
               textColor = Colors.green;
@@ -75,6 +78,10 @@ class _TimerPageState extends State<TimerPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Compteur"),
+        leading: BackButton(),
+      ),
       backgroundColor: bgColor,
       body: Center(
 
@@ -127,7 +134,7 @@ class _TimerPageState extends State<TimerPage> {
   }
   Widget buildTextRep() {
     return Text(
-        "\n REPS : " + '$rep',
+        "\n REPS : " + '$showRep',
         style: TextStyle(
           fontWeight: FontWeight.bold,
           color: Colors.white,
@@ -135,9 +142,13 @@ class _TimerPageState extends State<TimerPage> {
         )
     );
   }
+
   @override
   void initState() {
     super.initState();
-    startTimer();
+    var rep= int.parse(widget.rep);
+    var secondsWork= int.parse(widget.secondsWork);
+    var secondsWait= int.parse(widget.secondsWait);
+    startTimer(rep,secondsWork,secondsWait);
   }
 }

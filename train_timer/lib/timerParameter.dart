@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class TimerParameter {
-  int secondsWork;
-  int secondsWait;
-  int nbreReps;
+  String secondsWork;
+  String secondsWait;
+  String nbreReps;
 
   TimerParameter(this.secondsWork, this.secondsWait, this.nbreReps);
 }

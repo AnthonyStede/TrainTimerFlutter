@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:train_timer/timerPage.dart';
 import 'package:train_timer/timerParameter.dart';
 
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Timer', timerParameter: TimerParameter(0,0,0)),
+      home: MyHomePage(title: 'Timer', timerParameter: TimerParameter("0","0","0")),
     );
   }
 }
@@ -27,7 +28,9 @@ class MyHomePage extends StatelessWidget {
   MyHomePage({Key? key, required this.title, required this.timerParameter}) : super(key: key);
   final String title;
   TimerParameter timerParameter;
-
+  get nbreReps => timerParameter.nbreReps;
+  get secondsWork => timerParameter.secondsWork;
+  get secondsWait => timerParameter.secondsWait;
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -43,46 +46,50 @@ class MyHomePage extends StatelessWidget {
                 ...[
                   TextFormField(
                     autofocus: true,
+                    keyboardType: TextInputType.number,
                     textInputAction: TextInputAction.next,
                     decoration: const InputDecoration(
                       filled: true,
-                      hintText: "temps d'exercice",
-                      labelText: "temps d'exercice",
+                      hintText: "Work Time",
+                      labelText: "Work Time",
                     ),
-                    onChanged: (value) {
-                      timerParameter.secondsWork = value as int;
+                      onChanged: (value) {
+                      timerParameter.secondsWork = value as String;
                     },
                   ),
                   TextFormField(
                     autofocus: true,
+                    keyboardType: TextInputType.number,
                     textInputAction: TextInputAction.next,
                     decoration: const InputDecoration(
                       filled: true,
-                      hintText: "temps de repos",
-                      labelText: "temps de repos",
+                      hintText: "Rest Time",
+                      labelText: "Rest Time",
                     ),
                     onChanged: (value) {
-                      timerParameter.secondsWait = value as int;
+                      timerParameter.secondsWait = value as String;
                     },
                   ),
                   TextFormField(
                     autofocus: true,
+                    keyboardType: TextInputType.number,
                     textInputAction: TextInputAction.next,
                     decoration: const InputDecoration(
                       filled: true,
-                      hintText: "nombres de répétitions",
-                      labelText: "nombres de répétitions",
+                      hintText: "number of repetitions",
+                      labelText: "number of repetitions",
                     ),
                     onChanged: (value) {
-                      timerParameter.nbreReps = value as int;
+                      timerParameter.nbreReps = value as String;
                     },
                   ),
                   TextButton(
+
                     child: const Text("GO !"),
                     onPressed: () =>
                       Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => const TimerPage(title: 'Timer')))
-
+                          builder: (context) =>
+                          TimerPage(title: 'Timer',rep:nbreReps,secondsWait:secondsWait ,secondsWork:secondsWork,)))
                   )
                 ]
               ]
