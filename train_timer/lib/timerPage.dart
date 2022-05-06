@@ -7,9 +7,9 @@ import 'package:train_timer/timerParameter.dart';
 class TimerPage extends StatefulWidget {
   const TimerPage({Key? key, required this.title,required this.rep,required this.secondsWait,required this.secondsWork}) : super(key: key);
   final String title;
-  final String rep;
-  final String secondsWork;
-  final String secondsWait;
+  final int rep;
+  final int secondsWork;
+  final int secondsWait;
   @override
   State<TimerPage> createState() => _TimerPageState();
 }
@@ -146,9 +146,9 @@ class _TimerPageState extends State<TimerPage> {
   @override
   void initState() {
     super.initState();
-    var rep= int.parse(widget.rep);
-    var secondsWork= int.parse(widget.secondsWork);
-    var secondsWait= int.parse(widget.secondsWait);
+    var rep= widget.rep; // int.parse(widget.rep);
+    var secondsWork= widget.secondsWork; // int.parse(widget.secondsWork);
+    var secondsWait= widget.secondsWait; // int.parse(widget.secondsWait);
     startTimer(rep,secondsWork,secondsWait);
   }
 }
