@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:train_timer/TimerParameterDatabase.dart';
 import 'package:train_timer/timerPage.dart';
 import 'package:train_timer/timerParameter.dart';
+
+import 'listTimerParameterPage.dart';
 
 
 void main() {
@@ -75,185 +78,195 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      appBar: AppBar(
-        title: Text(this.widget.title),
-      ),
-      body: Form(
-        child: Scrollbar(
-          child: Container(
-                color: Colors.white,
-                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 35),
-                child: LayoutBuilder(
-                  builder: (_, constraints) =>
-                      Container(
-                        width: constraints
-                            .widthConstraints()
-                            .maxWidth,
-                        height: constraints
-                            .heightConstraints()
-                            .maxHeight,
-                        child: Column(
+        appBar: AppBar(
+          title: Text(this.widget.title),
+        ),
+        body: Form(
+            child: Scrollbar(
+              child: Container(
+                  color: Colors.white,
+                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 35),
+                  child: LayoutBuilder(
+                    builder: (_, constraints) =>
+                        Container(
+                          width: constraints
+                              .widthConstraints()
+                              .maxWidth,
+                          height: constraints
+                              .heightConstraints()
+                              .maxHeight,
+                          child: Column(
 
-                          children: [
-                            ConstrainedBox(
-                                constraints: const BoxConstraints(
-                                  minWidth: double.infinity,
-                                  minHeight: 325,
-                                  maxWidth: double.infinity,
-                                  maxHeight: 330,
-                                ),
-                                child: Card(
-                                  color: Colors.grey[300],
-                                  elevation: 10,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(50),
+                            children: [
+                              ConstrainedBox(
+                                  constraints: const BoxConstraints(
+                                    minWidth: double.infinity,
+                                    minHeight: 325,
+                                    maxWidth: double.infinity,
+                                    maxHeight: 330,
                                   ),
-                                  child: Container(
-                                    // color: Colors.grey[300],
-                                    child: Column(
-                                      children: [
-                                        Align(
+                                  child: Card(
+                                    color: Colors.grey[300],
+                                    elevation: 10,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(50),
+                                    ),
+                                    child: Container(
+                                      // color: Colors.grey[300],
+                                      child: Column(
+                                        children: [
+                                          Align(
 
-                                          alignment: Alignment.topLeft,
-                                          child: Container(
-                                            padding: EdgeInsets.fromLTRB(
-                                                30, 15, 0, 5),
-                                            child: Text(
-                                              "Démarage",
-                                              style: TextStyle(
-                                                  color: Colors.black87,
-                                                  fontSize: 18.0,
-                                                  fontWeight: FontWeight.bold
+                                            alignment: Alignment.topLeft,
+                                            child: Container(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  30, 15, 0, 5),
+                                              child: Text(
+                                                "Démarage",
+                                                style: TextStyle(
+                                                    color: Colors.black87,
+                                                    fontSize: 18.0,
+                                                    fontWeight: FontWeight.bold
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                        Text(
-                                          "Répétitions",
-                                          style: textStyle,
-                                        ),
-                                        Row(
+                                          Text(
+                                            "Répétitions",
+                                            style: textStyle,
+                                          ),
+                                          Row(
+                                              mainAxisAlignment: MainAxisAlignment
+                                                  .center,
+                                              children: [
+                                                ElevatedButton(
+                                                  style: raisedButtonStyle,
+                                                  onPressed: () {widget.timerParameter.nbreReps = _decrementTime(widget.timerParameter.nbreReps);},
+                                                  child: Icon(Icons.remove,
+                                                      color: Colors.white),),
+                                                SizedBox(width: 20,),
+                                                Text(
+                                                  " "+ '$nbreReps' +" ",
+                                                  style: textStyle,
+                                                ),
+                                                SizedBox(width: 20,),
+                                                ElevatedButton(
+                                                  style: raisedButtonStyle,
+                                                  onPressed: () {widget.timerParameter.nbreReps = _incrementTime(widget.timerParameter.nbreReps);},
+                                                  child: Icon(Icons.add,
+                                                      color: Colors.white),),
+                                              ]
+                                          ),
+                                          Text(
+                                            "Travaille",
+                                            style: textStyle,
+                                          ),
+                                          Row(
                                             mainAxisAlignment: MainAxisAlignment
                                                 .center,
                                             children: [
                                               ElevatedButton(
                                                 style: raisedButtonStyle,
-                                                onPressed: () {widget.timerParameter.nbreReps = _decrementTime(widget.timerParameter.nbreReps);},
+                                                onPressed: () {widget.timerParameter.secondsWork = _decrementTime(widget.timerParameter.secondsWork);},
                                                 child: Icon(Icons.remove,
                                                     color: Colors.white),),
                                               SizedBox(width: 20,),
                                               Text(
-                                                " "+ '$nbreReps' +" ",
+                                                '$secondsWork',
                                                 style: textStyle,
                                               ),
                                               SizedBox(width: 20,),
                                               ElevatedButton(
                                                 style: raisedButtonStyle,
-                                                onPressed: () {widget.timerParameter.nbreReps = _incrementTime(widget.timerParameter.nbreReps);},
+                                                onPressed: () {widget.timerParameter.secondsWork = _incrementTime(widget.timerParameter.secondsWork);},
                                                 child: Icon(Icons.add,
                                                     color: Colors.white),),
-                                            ]
-                                        ),
-                                        Text(
-                                          "Travaille",
-                                          style: textStyle,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment
-                                              .center,
-                                          children: [
-                                            ElevatedButton(
-                                              style: raisedButtonStyle,
-                                              onPressed: () {widget.timerParameter.secondsWork = _decrementTime(widget.timerParameter.secondsWork);},
-                                              child: Icon(Icons.remove,
-                                                  color: Colors.white),),
-                                            SizedBox(width: 20,),
-                                            Text(
-                                              '$secondsWork',
-                                              style: textStyle,
-                                            ),
-                                            SizedBox(width: 20,),
-                                            ElevatedButton(
-                                              style: raisedButtonStyle,
-                                              onPressed: () {widget.timerParameter.secondsWork = _incrementTime(widget.timerParameter.secondsWork);},
-                                              child: Icon(Icons.add,
-                                                  color: Colors.white),),
-                                          ],
+                                            ],
 
-                                        ),
-                                        Text(
-                                          "Repos",
-                                          style: textStyle,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment
-                                              .center,
-                                          children: [
-                                            ElevatedButton(
-                                              style: raisedButtonStyle,
-                                              onPressed: () {widget.timerParameter.secondsWait = _decrementTime(widget.timerParameter.secondsWait);},
-                                              child: Icon(Icons.remove,
-                                                  color: Colors.white),),
-                                            SizedBox(width: 20,),
-                                            Text(
-                                              '$secondsWait',
-                                              style: textStyle,
+                                          ),
+                                          Text(
+                                            "Repos",
+                                            style: textStyle,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment
+                                                .center,
+                                            children: [
+                                              ElevatedButton(
+                                                style: raisedButtonStyle,
+                                                onPressed: () {widget.timerParameter.secondsWait = _decrementTime(widget.timerParameter.secondsWait);},
+                                                child: Icon(Icons.remove,
+                                                    color: Colors.white),),
+                                              SizedBox(width: 20,),
+                                              Text(
+                                                '$secondsWait',
+                                                style: textStyle,
 
-                                            ),
-                                            SizedBox(width: 20,),
-                                            ElevatedButton(
-                                              style: raisedButtonStyle,
-                                              onPressed: () {widget.timerParameter.secondsWait = _incrementTime(widget.timerParameter.secondsWait);},
-                                              child: Icon(Icons.add,
-                                                  color: Colors.white),),
-                                          ],
-                                        ),
-                                        SizedBox(height: 20,),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment
-                                              .spaceAround,
-                                          children: [
-                                            ElevatedButton.icon(
-                                              onPressed: () =>
-                                                Navigator.push(context, MaterialPageRoute(
-                                                builder: (context) =>
-                                                TimerPage(title: 'Timer',rep:nbreReps,secondsWait:secondsWait ,secondsWork:secondsWork,))),
-                                              icon: Icon( // <-- Icon
-                                                Icons.timelapse,
-                                                size: 20.0,
                                               ),
-                                              label: Text('Start'), // <-- Text
-                                              style: ElevatedButton.styleFrom(
-                                                //onPrimary: Colors.black87,
-                                                primary: Colors.amber,
-                                              ),
+                                              SizedBox(width: 20,),
+                                              ElevatedButton(
+                                                style: raisedButtonStyle,
+                                                onPressed: () {widget.timerParameter.secondsWait = _incrementTime(widget.timerParameter.secondsWait);},
+                                                child: Icon(Icons.add,
+                                                    color: Colors.white),),
+                                            ],
+                                          ),
+                                          SizedBox(height: 20,),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment
+                                                .spaceAround,
+                                            children: [
+                                              ElevatedButton.icon(
+                                                onPressed: () =>
+                                                    Navigator.push(context, MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            TimerPage(title: 'Timer',rep:nbreReps,secondsWait:secondsWait ,secondsWork:secondsWork,))),
+                                                icon: Icon( // <-- Icon
+                                                  Icons.timelapse,
+                                                  size: 20.0,
+                                                ),
+                                                label: Text('Start'), // <-- Text
+                                                style: ElevatedButton.styleFrom(
+                                                  //onPrimary: Colors.black87,
+                                                  primary: Colors.amber,
+                                                ),
 
-                                            ),
-                                            ElevatedButton.icon(
-                                              onPressed: () {},
-                                              icon: Icon( // <-- Icon
-                                                Icons.save,
-                                                size: 20.0,
                                               ),
-                                              label: Text('Save'), // <-- Text
-                                              style: ElevatedButton.styleFrom(
-                                                //onPrimary: Colors.black87,
-                                                primary: Colors.amber,
+                                              ElevatedButton.icon(
+                                                onPressed: () {
+                                                  TimerParameterDatabase.instance.insertTimerParameter(widget.timerParameter);
+                                                },
+                                                icon: Icon( // <-- Icon
+                                                  Icons.save,
+                                                  size: 20.0,
+                                                ),
+                                                label: Text('Save'), // <-- Text
+                                                style: ElevatedButton.styleFrom(
+                                                  //onPrimary: Colors.black87,
+                                                  primary: Colors.amber,
+                                                ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  Navigator.push(context, MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          ListTimerParameterPage(timerParameter: widget.timerParameter)));
+                                                },
+                                                child: Text("voir BDD"),
+                                              )
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                )
-                            ),
-                          ],
+                                  )
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                )
-            ),
-          )
+                  )
+              ),
+            )
         )
     );
 
