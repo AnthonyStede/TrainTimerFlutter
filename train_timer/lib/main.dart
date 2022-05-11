@@ -8,6 +8,7 @@ import 'package:train_timer/timerParameter.dart';
 import 'listTimerParameterPage.dart';
 
 
+
 void main() {
   runApp(const MyApp());
 }
@@ -96,9 +97,10 @@ class _MyHomePageState extends State<MyHomePage> {
                               .heightConstraints()
                               .maxHeight,
                           child: Column(
-
+                            mainAxisAlignment: MainAxisAlignment.values.last,
                             children: [
                               ConstrainedBox(
+
                                   constraints: const BoxConstraints(
                                     minWidth: double.infinity,
                                     minHeight: 325,
@@ -246,14 +248,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                   primary: Colors.amber,
                                                 ),
                                               ),
-                                              ElevatedButton(
-                                                onPressed: () {
-                                                  Navigator.push(context, MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          ListTimerParameterPage(timerParameter: widget.timerParameter)));
-                                                },
-                                                child: Text("voir BDD"),
-                                              )
+
                                             ],
                                           ),
                                         ],
@@ -261,6 +256,35 @@ class _MyHomePageState extends State<MyHomePage> {
                                     ),
                                   )
                               ),
+                              ConstrainedBox(
+                              constraints: const BoxConstraints(
+                              minWidth: double.infinity,
+                              minHeight: 85,
+                              maxWidth: double.infinity,
+                              maxHeight: 90,
+                              ),
+                              child: Card(
+                              color: Colors.grey[300],
+                              elevation: 10,
+                              shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                              ),
+                              child: Container(
+                                margin: EdgeInsets.all(20),
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                  //onPrimary: Colors.black87,
+                                  primary: Colors.amber,
+                                ),
+                                  onPressed: () {
+                                    Navigator.push(context, MaterialPageRoute(
+                                        builder: (context) =>
+                                            ListTimerParameterPage(timerParameter: widget.timerParameter)));
+                                  },
+                                  child: Text("voir BDD"),
+                                ),
+                              ))
+                              )
                             ],
                           ),
                         ),

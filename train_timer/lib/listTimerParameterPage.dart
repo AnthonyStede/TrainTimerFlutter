@@ -47,18 +47,36 @@ class TimerParameterItemWidget extends StatelessWidget {
   TimerParameterItemWidget({Key? key, required this.timerParameter}) : super(key: key);
   final TimerParameter timerParameter;
 
+  final TextStyle textStyle = TextStyle(
+      color: Colors.black87,
+      fontSize: 16.0,
+      fontWeight: FontWeight.bold
+  );
+
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.all(8),
-      elevation: 8,
-      child: Row(
-        children: [
-          Text(" exercice : " + timerParameter.secondsWork.toString()),
-          Text(" repos : " + timerParameter.secondsWait.toString()),
-          Text(" repetitions : " + timerParameter.nbreReps.toString())
-        ],
-      ),
+    return ConstrainedBox(
+        constraints: const BoxConstraints(
+          minWidth: double.infinity,
+          minHeight: 60,
+          maxWidth: double.infinity,
+          maxHeight: 70,
+        ),
+        child: Card(
+          margin: EdgeInsets.all(8),
+          color: Colors.grey[300],
+          elevation: 10,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50),
+          ),
+          child: Row(
+            children: [
+              Text(" exercice : " + timerParameter.secondsWork.toString(), style: textStyle),
+              Text(" repos : " + timerParameter.secondsWait.toString(), style: textStyle),
+              Text(" repetitions : " + timerParameter.nbreReps.toString(), style: textStyle)
+            ],
+          ),
+        )
     );
   }
 }
